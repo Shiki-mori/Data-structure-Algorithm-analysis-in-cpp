@@ -32,14 +32,57 @@
 //     printDigit(n % 10);
 // }
 
-// 一个IntCell类的完整声明（模拟整数内存单元）
-class IntCell {
-public:
-  IntCell() { storedValue = 0; }
-  IntCell(int initialValue) { storedValue = initialValue; }
-  int read() { return storedValue; }
-  void write(int x) { storedValue = x; }
+// // 一个IntCell类的完整声明（模拟整数内存单元）
+// class IntCell {
+// public:
+//   IntCell() { storedValue = 0; }
+//   IntCell(int initialValue) { storedValue = initialValue; }
+//   int read() { return storedValue; }
+//   void write(int x) { storedValue = x; }
 
-private:
-  int storedValue;
-};
+// private:
+//   int storedValue;
+// };
+
+// // 经过修订的IntCell类
+// class IntCell {
+// public:
+//   explicit IntCell(int initialValue = 0) : storedValue{initialValue} {}
+//   int read() const { return storedValue; }
+//   void write(int x) { storedValue = x; }
+
+// private:
+//   int storedValue;
+// };
+
+// //1.7 头文件IntCell.h中的IntCell类接口
+// #ifndef IntCell_H
+// #define IntCell_H
+// class IntCell {
+// public:
+//   explicit IntCell(int initialValue = 0);
+//   int read() const;
+//   void write(int x);
+
+// private:
+//   int storedValue;
+// };
+// #endif
+// //1.8 文件IntCell.cpp中的IntCell类实现
+// #include "IntCell.h"
+// IntCell::IntCell(int initialValue) : storedValue{initialValue} {}
+// int IntCell::read() const { return storedValue; }
+// void IntCell::write(int x) { storedValue = x; }
+// // 1.9 文件TestIntCell，使用了IntCell类
+// #include "IntCell.h"
+// #include <iostream>
+
+// using namespace std;
+
+// int main() {
+//   IntCell m;
+//   m.write(5);
+//   cout << "Cell contents: " << m.read() << endl;
+
+//   return 0;
+// }
