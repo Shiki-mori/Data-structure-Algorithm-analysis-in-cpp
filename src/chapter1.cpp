@@ -86,3 +86,55 @@
 
 //   return 0;
 // }
+
+// // 1.10 使用vector类：存储100个平方数并输出
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+
+// int main() {
+//   vector<int> squares(100);
+
+//   for (int i = 0; i < squares.size(); ++i)
+//     squares[i] = i * i;
+
+//   for (int i = 0; i < squares.size(); ++i)
+//     cout << i << " " << squares[i] << endl;
+
+//   int sum = 0;
+//   for (int x : squares)
+//     sum += x;
+
+//   cout << sum;
+
+//   return 0;
+// }
+
+// //1.11 使用指向IntCell的指针
+// #include <iostream>
+// using namespace std;
+// class IntCell {
+// public:
+//   explicit IntCell(int initialValue = 0) : storedValue{initialValue} {};
+//   int read() const { return storedValue; }
+//   void write(int x) { storedValue = x; }
+
+// private:
+//   int storedValue;
+// };
+// int main() {
+//   IntCell *m = nullptr;
+
+//   m = new IntCell{0};
+//   m->write(5);
+//   cout << "Cell contents: " << m->read();
+
+//   delete m;
+//   return 0;
+// }
+
+// int y;
+// int z = x + y;
+// string str = "foo";
+// vector<string> *ptr = &arr;
+
