@@ -138,3 +138,36 @@
 // string str = "foo";
 // vector<string> *ptr = &arr;
 
+// string str = "hell";
+// string &rstr = str;
+// rstr += '0';
+// bool cond = (&str == &rstr);
+// string &bad1 = "hello";         // invalid
+// string &bad2 = str + " ";       // invalid:str+" " isn't lvalue
+// string &sub = str.substr(0, 4); // invalid:str.substr(0, 4) isn't lvalue
+
+// string str = "hell";
+// string &&bad1 = "hello";
+// string &&bad2 = str + " ";
+// string &&sub = str.substr(0, 4);
+
+// auto &whichList = theLists[myhash(x, theLists.size())];
+// if (find(begin(whichList), end(whichList), x) != end(whichList))
+//   return false;
+// whichList.push_back(x);
+
+// for (auto &x : arr)
+//   ++x;
+
+// #include <string>
+// #include <vector>
+// double average(double a, double b);
+// void swap(double a, double b);
+// string randomItem(vector<string> arr);
+
+// string randomItem(const vector<string> &arr); // 返回左值arr的随机项
+// string randomItem(vector<string> &&arr);      // 返回右值arr中的随机项
+
+// vector<string> v{"hello", "world"};
+// cout << randomItem(v) << endl;                  // 调用左值的方法
+// cout << randomItem({"hello", "world"}) << endl; // 调用右值的方法
