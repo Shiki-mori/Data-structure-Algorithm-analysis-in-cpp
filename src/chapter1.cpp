@@ -171,3 +171,67 @@
 // vector<string> v{"hello", "world"};
 // cout << randomItem(v) << endl;                  // 调用左值的方法
 // cout << randomItem({"hello", "world"}) << endl; // 调用右值的方法
+
+// class LargeType {};
+// double average(double a, double b);
+// LargeType randomItem(const vector<LargeType> &arr);
+// vector<int> partialSum(const vector<int> &arr);
+
+// //1.12 获得数组中的一个随机项的两种版本
+// //第2种版本避免了临时LargeType对象的创建，但仅当调用者用一个常量引用访问它时可行
+// LargeType randomItem1(const vector<LargeType> &arr) {
+//   return arr[randomInt(0, arr.size() - 1)];
+// }
+
+// const LargeType &randomItem2(const vector<LargeType> &arr) {
+//   return arr[randomInt(0, arr.size() - 1)];
+// }
+
+// vector<LargeType> vec;
+// ··· 
+// LargeType item1 = randomItem1(vec);    // 复制
+// LargeType item2 = randomItem2(vec);        // 复制
+// const LargeType &item3 = randomItem2(vec); // 不复制
+
+// // 1.13 在C++11中返回栈分配的右值
+// vector<int> partialSum(const vector<int> &arr) {
+//   vector<int> result(arr.size());
+
+//   result[0] = arr[0];
+//   for (int i = 1; i < arr.size(); i++)
+//     result[i] = result[i - 1] + arr[i];
+
+//   return result;
+// }
+// vector<int> vec;
+// ... 
+// vector<int> sums = partialSum(vec); // 在传统C++中是复制，在C++11中是移动
+
+// //1.14 通过3次复制的交换
+// void swap(double &x, double &y) {
+//   double temp = x;
+//   x = y;
+//   y = temp;
+// }
+
+// void swap(vector<string> &x, vector<string> &y) {
+//   vector<string> temp = x;
+//   x = y;
+//   y = temp;
+// }
+
+//1.15 通过3次移动的两种交换
+//第一种通过强制类型转换实现
+//第二种使用std::move
+using namespace std;
+void swap(vector<string> &x, vector<string> &y) {
+  vector<string> temp = static_cast<vector<string> &&>(x);
+  x = static_cast<vector<string> &&>(y);
+  y = static_cast<vector<string> &&>(temp);
+}
+
+void swap(vector<string> &x, vector<string> &y) {
+  vector<string> temp = std::move(x);
+  x = std::move(y);
+  y = move(temp);
+}
