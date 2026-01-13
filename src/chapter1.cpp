@@ -188,7 +188,7 @@
 // }
 
 // vector<LargeType> vec;
-// ··· 
+// ···
 // LargeType item1 = randomItem1(vec);    // 复制
 // LargeType item2 = randomItem2(vec);        // 复制
 // const LargeType &item3 = randomItem2(vec); // 不复制
@@ -204,7 +204,7 @@
 //   return result;
 // }
 // vector<int> vec;
-// ... 
+// ...
 // vector<int> sums = partialSum(vec); // 在传统C++中是复制，在C++11中是移动
 
 // //1.14 通过3次复制的交换
@@ -220,18 +220,95 @@
 //   y = temp;
 // }
 
-//1.15 通过3次移动的两种交换
-//第一种通过强制类型转换实现
-//第二种使用std::move
-using namespace std;
-void swap(vector<string> &x, vector<string> &y) {
-  vector<string> temp = static_cast<vector<string> &&>(x);
-  x = static_cast<vector<string> &&>(y);
-  y = static_cast<vector<string> &&>(temp);
-}
+// //1.15 通过3次移动的两种交换
+// //第一种通过强制类型转换实现
+// //第二种使用std::move
+// using namespace std;
+// void swap(vector<string> &x, vector<string> &y) {
+//   vector<string> temp = static_cast<vector<string> &&>(x);
+//   x = static_cast<vector<string> &&>(y);
+//   y = static_cast<vector<string> &&>(temp);
+// }
 
-void swap(vector<string> &x, vector<string> &y) {
-  vector<string> temp = std::move(x);
-  x = std::move(y);
-  y = move(temp);
-}
+// void swap(vector<string> &x, vector<string> &y) {
+//   vector<string> temp = std::move(x);
+//   x = std::move(y);
+//   y = move(temp);
+// }
+
+// class IntCell {
+//   IntCell(const IntCell &rhs) = delete;            // 无拷贝构造函数
+//   IntCell(IntCell &&rhs) = delete;                 // 无移动构造函数
+//   IntCell &operator=(const IntCell &rhs) = delete; // 无拷贝赋值
+//   IntCell &operator=(IntCell &&rhs) = delete;      // 无移动赋值
+// };
+
+// // 1.16 数据成员为指针，默认操作不起作用
+// class IntCell {
+//   int *storedValue;
+
+// public:
+//   explicit IntCell(int initialValue = 0) {
+//     storedValue = new int{initialValue};
+//   }
+//   int read() const { return *storedValue; }
+//   void write(int x) { *storedValue = x; }
+// };
+
+// // 1.17 揭示1.16中的问题
+// int f() {
+//   IntCell a{2};
+//   IntCell b = a;
+//   IntCell c;
+
+//   c = b;
+//   a.write(4);
+//   cout << a.read() << endl << b.read() << endl << c.read() << endl;
+//   return 0;
+// }
+
+// // 1.18 数据成员为指针，实现五大函数
+// class IntCell {
+//   int *storedValue;
+
+// public:
+//   explicit IntCell(int initialValue = 0) {
+//     storedValue = new int{initialValue};
+//   }
+
+//   ~IntCell() { delete storedValue; }
+
+//   IntCell(const IntCell &rhs) { storedValue = new int{*rhs.storedValue}; }
+
+//   IntCell(IntCell &&rhs) : storedValue{rhs.storedValue} {
+//     rhs.storedValue = nullptr;
+//   }
+
+//   IntCell &operator=(const IntCell &rhs) {
+//     if (this != &rhs)
+//       *storedValue = *rhs.storedValue;
+//     return *this;
+//   }
+
+//   IntCell &operator=(IntCell &&rhs) {
+//     std::swap(storedValue, rhs.storedValue);
+//     return *this;
+//   }
+
+//   int read() const { return *storedValue; }
+
+//   void write(int x) { *storedValue = x; }
+// };
+
+// IntCell &operator=(const IntCell &rhs) {
+//   IntCell copy = rhs;
+//   std::swap(*this, copy);
+//   return *this;
+// }
+
+// IntCell(IntCell &&rhs)
+//     : storedValue{rhs.storedValue}, items{std::move(rhs.items)} {
+//   rhs.storedValue = nullptr;
+// }
+
+delete[] arr2;
