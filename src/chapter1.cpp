@@ -311,4 +311,42 @@
 //   rhs.storedValue = nullptr;
 // }
 
-delete[] arr2;
+// delete[] arr2;
+
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// // 1.19 findMax函数模板
+// // 返回数组a中的最大项
+// // 假设a.size()>0
+// // 可比较的对象必须提供operator<和operator=
+// template <typename Comparable>
+// const Comparable &findMax(const vector<Comparable> &a) {
+//   int maxIndex = 0;
+//   for (int i = 1; i < a.size(); i++)
+//     if (a[maxIndex] < a[i])
+//       maxIndex = i;
+//   return a[maxIndex];
+// }
+
+// // 1.20 findMax函数模板的使用
+// int main() {
+//   vector<int> v1(37);
+//   vector<double> v2(40);
+//   vector<string> v3(80);
+//   vector<IntCell> v4(75);
+
+//   cout << findMax(v1) << endl;
+//   cout << findMax(v2) << endl;
+//   cout << findMax(v3) << endl;
+//   cout << findMax(v4) << endl; // invalid: operator< undifined
+
+//   return 0;
+// }
+
+// 1.21 MemoryCell类模板
+// 一个模拟内存单元的类
+template <typename Object> class MemoryCell {
+public:
+  explicit MemoryCell(const Object &initialValue = Object{}) :
+}
