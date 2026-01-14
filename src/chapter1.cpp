@@ -313,21 +313,18 @@
 
 // delete[] arr2;
 
-#include <iostream>
-#include <vector>
-using namespace std;
-// 1.19 findMax函数模板
-// 返回数组a中的最大项
-// 假设a.size()>0
-// 可比较的对象必须提供operator<和operator=
-template <typename Comparable>
-const Comparable &findMax(const vector<Comparable> &a) {
-  int maxIndex = 0;
-  for (int i = 1; i < a.size(); i++)
-    if (a[maxIndex] < a[i])
-      maxIndex = i;
-  return a[maxIndex];
-}
+// // 1.19 findMax函数模板
+// // 返回数组a中的最大项
+// // 假设a.size()>0
+// // 可比较的对象必须提供operator<和operator=
+// template <typename Comparable>
+// const Comparable &findMax(const vector<Comparable> &a) {
+//   int maxIndex = 0;
+//   for (int i = 1; i < a.size(); i++)
+//     if (a[maxIndex] < a[i])
+//       maxIndex = i;
+//   return a[maxIndex];
+// }
 
 // // 1.20 findMax函数模板的使用
 // int main() {
@@ -375,28 +372,29 @@ const Comparable &findMax(const vector<Comparable> &a) {
 //   return 0;
 // }
 
-// 1.23 Comparable可以是一个类类型，如Square
-class Square {
-public:
-  explicit Square(double s = 0.0) : side{s} {}
-  double getSide() const { return side; }
-  double getArea() const { return side * side; }
-  double getPerimeter() const { return side * 4; }
+// // 1.23 Comparable可以是一个类类型，如Square
+// class Square {
+// public:
+//   explicit Square(double s = 0.0) : side{s} {}
+//   double getSide() const { return side; }
+//   double getArea() const { return side * side; }
+//   double getPerimeter() const { return side * 4; }
 
-  void print(ostream &out = cout) const {
-    out << "(square " << getSide() << ")";
-  }
-  bool operator<(const Square &rhs) const { return getSide() < rhs.getSide(); }
+//   void print(ostream &out = cout) const {
+//     out << "(square " << getSide() << ")";
+//   }
+//   bool operator<(const Square &rhs) const { return getSide() < rhs.getSide();
+//   }
 
-private:
-  double side;
-};
+// private:
+//   double side;
+// };
 
-// 为Square定义一个输出操作符
-ostream &operator<<(ostream &out, const Square &rhs) {
-  rhs.print(out);
-  return out;
-}
+// // 为Square定义一个输出操作符
+// ostream &operator<<(ostream &out, const Square &rhs) {
+//   rhs.print(out);
+//   return out;
+// }
 
 // int main() {
 //   vector<Square> v = {Square{3.0}, Square{2.0}, Square{2.5}};
@@ -405,6 +403,66 @@ ostream &operator<<(ostream &out, const Square &rhs) {
 //   return 0;
 // }
 
-// 1.24 使用函数对象作为findMax的第二个参数的最简单思路
+#include <cstring>
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+// // 1.24 使用函数对象作为findMax的第二个参数的最简单思路
+// template <typename Object, typename Comparator>
+// const Object &findMax(const vector<Object> &arr, Comparator cmp) {
+//   int maxIndex = 0;
+
+//   for (int i = 1; i < arr.size(); i++) {
+//     if (cmp.isLessThan(arr[maxIndex], arr[i]))
+//       maxIndex = i;
+//   }
+
+//   return arr[maxIndex];
+// }
+// class CaseInsensitiveCompare {
+// public:
+//   bool isLessThan(const string &lhs, const string &rhs) const {
+//     return _stricmp(lhs.c_str(), rhs.c_str()) < 0;
+//   }
+// };
+
+// int main() {
+//   vector<string> arr = {"ZEBRA", "alligator", "crocodile"};
+//   cout << findMax(arr, CaseInsensitiveCompare{}) << endl;
+
+//   return 0;
+// }
+
+// 1.25 使用一个C++风格函数对象，用到findMax的第2个版本
 template <typename Object, typename Comparator>
-const Object &findMax(const vector <)
+const Object &findMax(const vector<Object> &arr, Comparator isLessThan) {
+  int maxIndex = 0;
+  for (int i = 1; i < arr.size(); i++) {
+    if (isLessThan(arr[maxIndex], arr[i]))
+      maxIndex = i;
+  }
+  return arr[maxIndex];
+}
+
+#include <functional>
+template <typename Object> const Object &findMax(const vector<Object> &arr) {
+  return findMax(arr, less<Object>{});
+}
+
+class CaseInsensitiveCompare {
+public:
+  bool operator()(const string &lhs, const string &rhs) const {
+    return _stricmp(lhs.c_str(), rhs.c_str()) < 0;
+  }
+};
+
+int main() {
+  vector<string> arr = {"ZEBRA", "alligator", "crocodile"};
+
+  cout << findMax(arr, CaseInsensitiveCompare{}) << endl;
+  cout << findMax(arr) << endl;
+
+  return 0;
+}
