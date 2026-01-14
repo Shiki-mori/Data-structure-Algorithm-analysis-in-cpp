@@ -313,21 +313,21 @@
 
 // delete[] arr2;
 
-// #include <iostream>
-// #include <vector>
-// using namespace std;
-// // 1.19 findMax函数模板
-// // 返回数组a中的最大项
-// // 假设a.size()>0
-// // 可比较的对象必须提供operator<和operator=
-// template <typename Comparable>
-// const Comparable &findMax(const vector<Comparable> &a) {
-//   int maxIndex = 0;
-//   for (int i = 1; i < a.size(); i++)
-//     if (a[maxIndex] < a[i])
-//       maxIndex = i;
-//   return a[maxIndex];
-// }
+#include <iostream>
+#include <vector>
+using namespace std;
+// 1.19 findMax函数模板
+// 返回数组a中的最大项
+// 假设a.size()>0
+// 可比较的对象必须提供operator<和operator=
+template <typename Comparable>
+const Comparable &findMax(const vector<Comparable> &a) {
+  int maxIndex = 0;
+  for (int i = 1; i < a.size(); i++)
+    if (a[maxIndex] < a[i])
+      maxIndex = i;
+  return a[maxIndex];
+}
 
 // // 1.20 findMax函数模板的使用
 // int main() {
@@ -344,32 +344,67 @@
 //   return 0;
 // }
 
-#include<iostream>
-#include<string>
-using namespace std;
-// 1.21 MemoryCell类模板
-// 一个模拟内存单元的类
-template <typename Object> class MemoryCell {
+// #include<iostream>
+// #include<string>
+// using namespace std;
+// // 1.21 MemoryCell类模板
+// // 一个模拟内存单元的类
+// template <typename Object> class MemoryCell {
+// public:
+//   // initialValue =
+//   Object{}:默认参数，如果调用时不提供参数，使用Object{}作为默认值
+//   // Object{}调用Object的默认构造函数创建一个临时对象
+//   explicit MemoryCell(const Object &initialValue = Object{})
+//       : storedValue{initialValue} {}
+//   const Object &read() const { return storedValue; }
+//   void write(const Object &x) { storedValue = x; }
+
+// private:
+//   Object storedValue;
+// };
+
+// // 1.22 使用MemoryCell类模板
+// int main() {
+//   MemoryCell<int> m1;
+//   MemoryCell<string> m2{"hello"};
+
+//   m1.write(37);
+//   m2.write(m2.read() + " world");
+//   cout << m1.read() << endl << m2.read() << endl;
+
+//   return 0;
+// }
+
+// 1.23 Comparable可以是一个类类型，如Square
+class Square {
 public:
-  // initialValue = Object{}:默认参数，如果调用时不提供参数，使用Object{}作为默认值
-  // Object{}调用Object的默认构造函数创建一个临时对象
-  explicit MemoryCell(const Object &initialValue = Object{})
-      : storedValue{initialValue} {}
-  const Object &read() const { return storedValue; }
-  void write(const Object &x) { storedValue = x; }
+  explicit Square(double s = 0.0) : side{s} {}
+  double getSide() const { return side; }
+  double getArea() const { return side * side; }
+  double getPerimeter() const { return side * 4; }
+
+  void print(ostream &out = cout) const {
+    out << "(square " << getSide() << ")";
+  }
+  bool operator<(const Square &rhs) const { return getSide() < rhs.getSide(); }
 
 private:
-  Object storedValue;
+  double side;
 };
 
-// 1.22 使用MemoryCell类模板
-int main() {
-  MemoryCell<int> m1;
-  MemoryCell<string> m2{"hello"};
-
-  m1.write(37);
-  m2.write(m2.read() + " world");
-  cout << m1.read() << endl << m2.read() << endl;
-
-  return 0;
+// 为Square定义一个输出操作符
+ostream &operator<<(ostream &out, const Square &rhs) {
+  rhs.print(out);
+  return out;
 }
+
+// int main() {
+//   vector<Square> v = {Square{3.0}, Square{2.0}, Square{2.5}};
+//   cout << "Largest Square: " << findMax(v) << endl;
+
+//   return 0;
+// }
+
+// 1.24 使用函数对象作为findMax的第二个参数的最简单思路
+template <typename Object, typename Comparator>
+const Object &findMax(const vector <)
