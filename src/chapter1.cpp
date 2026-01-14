@@ -344,9 +344,32 @@
 //   return 0;
 // }
 
+#include<iostream>
+#include<string>
+using namespace std;
 // 1.21 MemoryCell类模板
 // 一个模拟内存单元的类
 template <typename Object> class MemoryCell {
 public:
-  explicit MemoryCell(const Object &initialValue = Object{}) :
+  // initialValue = Object{}:默认参数，如果调用时不提供参数，使用Object{}作为默认值
+  // Object{}调用Object的默认构造函数创建一个临时对象
+  explicit MemoryCell(const Object &initialValue = Object{})
+      : storedValue{initialValue} {}
+  const Object &read() const { return storedValue; }
+  void write(const Object &x) { storedValue = x; }
+
+private:
+  Object storedValue;
+};
+
+// 1.22 使用MemoryCell类模板
+int main() {
+  MemoryCell<int> m1;
+  MemoryCell<string> m2{"hello"};
+
+  m1.write(37);
+  m2.write(m2.read() + " world");
+  cout << m1.read() << endl << m2.read() << endl;
+
+  return 0;
 }
