@@ -467,32 +467,37 @@
 //   return 0;
 // }
 
-// 1.26 一个完整的matrix类
-#ifndef MATRIX_H
-#define MATRIX_H
+// // 1.26 一个完整的matrix类
+// #ifndef MATRIX_H
+// #define MATRIX_H
 
-#include <vector>
-using namespace std;
+// #include <vector>
+// using namespace std;
 
-template <typename Object> class matrix {
-public:
-  matrix(int rows, int cols) : array(rows) {
-    for (auto &thisRow : array)
-      thisRow.resize(cols);
-  }
+// template <typename Object> class matrix {
+// public:
+//   matrix(int rows, int cols) : array(rows) {
+//     for (auto &thisRow : array)
+//       thisRow.resize(cols);
+//   }
 
-  matrix(vector<vector<Object>> v) : array{v} {}
-  matrix(vector<vector<Object>> &&v) : array{std::move(v)} {}
+//   matrix(vector<vector<Object>> v) : array{v} {}
+//   matrix(vector<vector<Object>> &&v) : array{std::move(v)} {}
 
-  const vector<Object> &operator[](int row) const { return array[row]; }
-  vector<Object> &operator[](int row) { return array[row]; }
+//   const vector<Object> &operator[](int row) const { return array[row]; }
+//   vector<Object> &operator[](int row) { return array[row]; }
 
-  int numrows() const { return array.size(); }
-  int numcols() const {
-    return numrows() ? array[0].size() : 0;
-  } // 避免访问array[0]可能导致的数组越界
+//   int numrows() const { return array.size(); }
+//   int numcols() const {
+//     return numrows() ? array[0].size() : 0;
+//   } // 避免访问array[0]可能导致的数组越界
 
-private:
-  vector<vector<Object>> array;
-};
-#endif
+// private:
+//   vector<vector<Object>> array;
+// };
+// #endif
+
+// void copy(const matrix<int> &from, matrix<int> &to) {
+//   for (int i = 0; i < to.numrows(); i++)
+//     to[i] = from[i];
+// }
