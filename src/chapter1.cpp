@@ -403,12 +403,12 @@
 //   return 0;
 // }
 
-#include <cstring>
-#include <iostream>
-#include <string>
-#include <vector>
+// #include <cstring>
+// #include <iostream>
+// #include <string>
+// #include <vector>
 
-using namespace std;
+// using namespace std;
 // // 1.24 使用函数对象作为findMax的第二个参数的最简单思路
 // template <typename Object, typename Comparator>
 // const Object &findMax(const vector<Object> &arr, Comparator cmp) {
@@ -435,34 +435,64 @@ using namespace std;
 //   return 0;
 // }
 
-// 1.25 使用一个C++风格函数对象，用到findMax的第2个版本
-template <typename Object, typename Comparator>
-const Object &findMax(const vector<Object> &arr, Comparator isLessThan) {
-  int maxIndex = 0;
-  for (int i = 1; i < arr.size(); i++) {
-    if (isLessThan(arr[maxIndex], arr[i]))
-      maxIndex = i;
-  }
-  return arr[maxIndex];
-}
+// // 1.25 使用一个C++风格函数对象，用到findMax的第2个版本
+// template <typename Object, typename Comparator>
+// const Object &findMax(const vector<Object> &arr, Comparator isLessThan) {
+//   int maxIndex = 0;
+//   for (int i = 1; i < arr.size(); i++) {
+//     if (isLessThan(arr[maxIndex], arr[i]))
+//       maxIndex = i;
+//   }
+//   return arr[maxIndex];
+// }
 
-#include <functional>
-template <typename Object> const Object &findMax(const vector<Object> &arr) {
-  return findMax(arr, less<Object>{});
-}
+// #include <functional>
+// template <typename Object> const Object &findMax(const vector<Object> &arr) {
+//   return findMax(arr, less<Object>{});
+// }
 
-class CaseInsensitiveCompare {
+// class CaseInsensitiveCompare {
+// public:
+//   bool operator()(const string &lhs, const string &rhs) const {
+//     return _stricmp(lhs.c_str(), rhs.c_str()) < 0;
+//   }
+// };
+
+// int main() {
+//   vector<string> arr = {"ZEBRA", "alligator", "crocodile"};
+
+//   cout << findMax(arr, CaseInsensitiveCompare{}) << endl;
+//   cout << findMax(arr) << endl;
+
+//   return 0;
+// }
+
+// 1.26 一个完整的matrix类
+#ifndef MATRIX_H
+#define MATRIX_H
+
+#include <vector>
+using namespace std;
+
+template <typename Object> class matrix {
 public:
-  bool operator()(const string &lhs, const string &rhs) const {
-    return _stricmp(lhs.c_str(), rhs.c_str()) < 0;
+  matrix(int rows, int cols) : array(rows) {
+    for (auto &thisRow : array)
+      thisRow.resize(cols);
   }
+
+  matrix(vector<vector<Object>> v) : array{v} {}
+  matrix(vector<vector<Object>> &&v) : array{std::move(v)} {}
+
+  const vector<Object> &operator[](int row) const { return array[row]; }
+  vector<Object> &operator[](int row) { return array[row]; }
+
+  int numrows() const { return array.size(); }
+  int numcols() const {
+    return numrows() ? array[0].size() : 0;
+  } // 避免访问array[0]可能导致的数组越界
+
+private:
+  vector<vector<Object>> array;
 };
-
-int main() {
-  vector<string> arr = {"ZEBRA", "alligator", "crocodile"};
-
-  cout << findMax(arr, CaseInsensitiveCompare{}) << endl;
-  cout << findMax(arr) << endl;
-
-  return 0;
-}
+#endif
