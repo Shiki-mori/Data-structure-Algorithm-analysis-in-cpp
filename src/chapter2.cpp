@@ -43,8 +43,75 @@ int maxSubSum2(const vector<int> &a) {
   return maxSum;
 }
 
+// 2.7 Algorithm 3
+int max3(int num1, int num2, int num3) {
+  int temp = num1 > num2 ? num1 : num2;
+  return temp > num3 ? temp : num3;
+}
+int maxSubRec(const vector<int> &a, int left, int right) {
+  // 基准情形
+  if (left == right) {
+    if (a[left] > 0)
+      return a[left];
+    else
+      return 0;
+  }
+
+  int center = (left + right) / 2;
+  int leftMaxSum = maxSubRec(a, left, center);
+  int rightMaxSum = maxSubRec(a, center + 1, right);
+  // cout << "center = " << center << endl;
+  int leftMaxSumBoard = 0; // 左半部分带最后一个元素的最大子序列和
+  int leftSum = 0;         // 左半部分子序列和
+  for (int i = center; i >= left; i--) {
+    leftSum += a[i];
+    // cout << "i = " << i << ' ' << "leftMaxSumBoard = " << leftMaxSumBoard<<
+    // endl;
+    if (leftMaxSumBoard < leftSum)
+      leftMaxSumBoard = leftSum;
+  }
+  int rightMaxSumBoard = 0; // 右半部分带最后一个元素的最大子序列和
+  int rightSum = 0;         // 右半部分子序列和
+  for (int j = center + 1; j <= right; j++) {
+    rightSum += a[j];
+    if (rightMaxSumBoard < rightSum)
+      rightMaxSumBoard = rightSum;
+  }
+  // cout << leftMaxSumBoard << ' ' << rightMaxSumBoard << endl;
+  // return 0;
+  return max3(leftMaxSum, rightMaxSum, leftMaxSumBoard + rightMaxSumBoard);
+}
+
+int maxSubSum3(const vector<int> &a) { return maxSubRec(a, 0, a.size() - 1); }
+
+// 2.8 Algorithm 4
+int maxSubSum4(const vector<int> &a) {
+  int sum = 0;
+  int maxSum = 0;
+  int first = 0, last = 0; // 存储序列下标
+  int thisFirst = 0, thisLast = 0;
+  for (int i = 0; i < a.size(); i++) {
+    sum += a[i];
+    thisLast = i;
+    if (sum < 0) {
+      sum = 0;
+      if (i + 1 <= a.size())
+        thisFirst = i + 1;
+    }
+    if (maxSum < sum) {
+      maxSum = sum;
+      first = thisFirst;
+      last = thisLast;
+    }
+  }
+  cout << "from " << first << " to " << last << endl;
+  return maxSum;
+}
+
 int main() {
   vector<int> nums = {4, -3, 5, -2, -1, 2, 6, -2};
-  cout << maxSubSum1(nums) << endl;
-  cout << maxSubSum2(nums) << endl;
+  // cout << maxSubSum1(nums) << endl;
+  // cout << maxSubSum2(nums) << endl;
+  // cout << maxSubSum3(nums) << endl;
+  cout << maxSubSum4(nums) << endl;
 }
