@@ -151,17 +151,36 @@
 //   cout << binarySearch(nums1, 6) << endl;
 // }
 
-#include <iostream>
-using namespace std;
-long long gcd(long long m, long long n) {
-  while (n != 0) {
-    long long rem = m % n;
-    m = n;
-    n = rem;
-  }
-  return m;
-}
-int main() {
-  cout << gcd(1989, 1590) << endl;
-  return 0;
-}
+// #include <iostream>
+// using namespace std;
+// long long gcd(long long m, long long n) {
+//   while (n != 0) {
+//     long long rem = m % n;
+//     m = n;
+//     n = rem;
+//   }
+//   return m;
+// }
+// int main() {
+//   cout << gcd(1989, 1590) << endl;
+//   return 0;
+// }
+
+// #include <iostream>
+// using namespace std;
+// // 2.11 高效率的幂运算
+// long long pow(long long x, int n) {
+//   if (n < 0)
+//     return 0;
+//   if (n == 0)
+//     return 1;
+
+//   if (n % 2)
+//     return pow(x * x, n / 2) * x;
+//   else
+//     return pow(x * x, n / 2);
+// }
+// int main() {
+//   cout << pow(3, 10) << endl;
+//   return 0;
+// }
